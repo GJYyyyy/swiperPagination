@@ -15,8 +15,5 @@
   "bugs": {
     "url": "https://github.com/GJYyyyy/swiperPagination/issues"
   },
-  "homepage": "https://github.com/GJYyyyy/swiperPagination#readme",
-  "dependencies": {
-    "swiper-pagination": "file:"
-  }
+  "homepage": "https://github.com/GJYyyyy/swiperPagination#readme"
 }
