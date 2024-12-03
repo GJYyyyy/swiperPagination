@@ -13,9 +13,11 @@ npm i swiper-pagination
 ```html
 <template>
   <swiper-pagination
+    class="demo"
     :pageNum.sync="pageNum"
     :pageSize="pageSize"
     :total="total"
+    :events="events"
     @firstPage="onFirstPage"
     @lastPage="onLastPage"
     @pageChange="onPageChange"
@@ -27,7 +29,9 @@ npm i swiper-pagination
 </template>
 
 <script>
-  import swiperPagination from "swiper-pagination";
+  import swiperPagination, {
+    isTouchScreen,
+  } from "swiper-pagination/src/SwiperPagination.vue";
 
   export default {
     components: {
@@ -37,10 +41,17 @@ npm i swiper-pagination
       pageNum: 1,
       pageSize: 10,
       total: 0,
+      events: ["wheel", "drag"], // 默认鼠标滚轮滑动、鼠标拖拽翻页
       items: [],
     }),
+    beforeMount() {
+      // 如果是触屏，则添加触屏专用手指滑动事件翻页
+      if (isTouchScreen()) this.events.push("touch");
+    },
     async mounted() {
-      this.items = await this.requestData();
+      let res = await this.requestData();
+      this.items = res.data;
+      this.total = res.count;
     },
     methods: {
       requestData() {
@@ -52,7 +63,7 @@ npm i swiper-pagination
                 { id: 2, text: "item2" },
                 { id: 3, text: "item3" },
               ],
-              total: 100,
+              count: 100,
             });
           }, 1000);
         });
@@ -63,12 +74,26 @@ npm i swiper-pagination
       onLastPage() {
         console.log("当前是尾页");
       },
-      onPageChange() {
-        this.items = await this.requestData();
+      async onPageChange() {
+        let res = await this.requestData();
+        this.items = res.data;
+        this.total = res.count;
       },
     },
   };
 </script>
+
+<style scoped>
+  .demo {
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+  }
+
+  .demo /deep/ > .current-page {
+    background-color: white;
+  }
+</style>
 ```
 
 # Document
