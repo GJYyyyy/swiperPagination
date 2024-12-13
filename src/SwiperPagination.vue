@@ -3,7 +3,7 @@
         };`" ref="pageContainer">
         <!-- 上一页预加载页面提示 -->
         <div class="prev-page-loading" :class="{ show: !pageNumModalVisible }">
-            <div>下拉刷新</div>
+            <div>下拉翻页</div>
         </div>
 
         <div class="current-page">
@@ -12,7 +12,7 @@
 
         <!-- 下一页预加载页面提示 -->
         <div class="next-page-loading" :class="{ show: !pageNumModalVisible }">
-            <div>上拉刷新</div>
+            <div>上拉翻页</div>
         </div>
 
         <div v-if="pageModal" class="modal" :class="{ show: pageNumModalVisible }"
@@ -88,7 +88,6 @@ export default {
         },
     },
     data: () => ({
-        touchScreen: false,
         pageOffsetY: 0,
         animation: true,
         pageRollTimer: 0,
@@ -109,7 +108,6 @@ export default {
         },
     },
     mounted() {
-        this.touchScreen = isTouchScreen();
         this.initEvent();
     },
 
@@ -121,90 +119,82 @@ export default {
             let pageContainer = this.$refs.pageContainer;
 
             // 触摸屏事件
-            if (this.touchScreen) {
-                if (this.events.includes("touch")) {
-                    pageContainer.addEventListener(
-                        "touchstart",
-                        this.onPageContainerTouchstart
-                    );
-                    pageContainer.addEventListener(
-                        "touchmove",
-                        this.onPageContainerTouchmove
-                    );
-                    pageContainer.addEventListener(
-                        "touchend",
-                        this.onPageContainerTouchend
-                    );
-                }
+            if (this.events.includes("touch")) {
+                pageContainer.addEventListener(
+                    "touchstart",
+                    this.onPageContainerTouchstart
+                );
+                pageContainer.addEventListener(
+                    "touchmove",
+                    this.onPageContainerTouchmove
+                );
+                pageContainer.addEventListener(
+                    "touchend",
+                    this.onPageContainerTouchend
+                );
             }
 
             // 非触摸屏事件
-            else {
-                if (this.events.includes("wheel")) {
-                    pageContainer.addEventListener(
-                        "mousewheel",
-                        this.onPageContainerMousewheel
-                    );
-                }
-                if (this.events.includes("drag")) {
-                    pageContainer.addEventListener(
-                        "mousedown",
-                        this.onPageContainerMousedown
-                    );
-                    pageContainer.addEventListener(
-                        "mousemove",
-                        this.onPageContainerMousemove
-                    );
-                    pageContainer.addEventListener(
-                        "mouseup",
-                        this.onPageContainerMouseup
-                    );
-                }
+            if (this.events.includes("wheel")) {
+                pageContainer.addEventListener(
+                    "mousewheel",
+                    this.onPageContainerMousewheel
+                );
+            }
+            if (this.events.includes("drag")) {
+                pageContainer.addEventListener(
+                    "mousedown",
+                    this.onPageContainerMousedown
+                );
+                pageContainer.addEventListener(
+                    "mousemove",
+                    this.onPageContainerMousemove
+                );
+                pageContainer.addEventListener(
+                    "mouseup",
+                    this.onPageContainerMouseup
+                );
             }
         },
         destroyEvent() {
             let pageContainer = this.$refs.pageContainer;
 
             // 触摸屏事件
-            if (this.touchScreen) {
-                if (this.events.includes("touch")) {
-                    pageContainer.removeEventListener(
-                        "touchstart",
-                        this.onPageContainerTouchstart
-                    );
-                    pageContainer.removeEventListener(
-                        "touchmove",
-                        this.onPageContainerTouchmove
-                    );
-                    pageContainer.removeEventListener(
-                        "touchend",
-                        this.onPageContainerTouchend
-                    );
-                }
+            if (this.events.includes("touch")) {
+                pageContainer.removeEventListener(
+                    "touchstart",
+                    this.onPageContainerTouchstart
+                );
+                pageContainer.removeEventListener(
+                    "touchmove",
+                    this.onPageContainerTouchmove
+                );
+                pageContainer.removeEventListener(
+                    "touchend",
+                    this.onPageContainerTouchend
+                );
             }
 
             // 非触摸屏事件
-            else {
-                if (this.events.includes("wheel")) {
-                    pageContainer.removeEventListener(
-                        "mousewheel",
-                        this.onPageContainerMousewheel
-                    );
-                }
-                if (this.events.includes("drag")) {
-                    pageContainer.removeEventListener(
-                        "mousedown",
-                        this.onPageContainerMousedown
-                    );
-                    pageContainer.removeEventListener(
-                        "mousemove",
-                        this.onPageContainerMousemove
-                    );
-                    pageContainer.removeEventListener(
-                        "mouseup",
-                        this.onPageContainerMouseup
-                    );
-                }
+            if (this.events.includes("wheel")) {
+                pageContainer.removeEventListener(
+                    "mousewheel",
+                    this.onPageContainerMousewheel
+                );
+            }
+            if (this.events.includes("drag")) {
+                pageContainer.removeEventListener(
+                    "mousedown",
+                    this.onPageContainerMousedown
+                );
+                pageContainer.removeEventListener(
+                    "mousemove",
+                    this.onPageContainerMousemove
+                );
+                pageContainer.removeEventListener(
+                    "mouseup",
+                    this.onPageContainerMouseup
+                );
             }
         },
         onPageContainerTouchstart(ev) {
